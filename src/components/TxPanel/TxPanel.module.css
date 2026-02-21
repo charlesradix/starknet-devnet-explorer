@@ -19,9 +19,13 @@
   cursor: pointer;
 }
 
-.toggle:hover,
-.toggle:hover .chevron {
+.toggle:hover:not(.toggleDisabled),
+.toggle:hover:not(.toggleDisabled) .chevron {
   color: var(--text);
+}
+
+.toggleDisabled {
+  cursor: default;
 }
 
 .chevron {

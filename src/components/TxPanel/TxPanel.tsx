@@ -25,12 +25,19 @@ function CopyIcon() {
 export function TxPanel() {
   const { txs } = useApp();
   const [open, setOpen] = createSignal(false);
+  const hasTxs = () => txs().length > 0;
 
   return (
     <div class={styles.panel} classList={{ [styles.panelOpen]: open() }}>
-      <button class={styles.toggle} onClick={() => setOpen((o) => !o)}>
+      <button
+        class={styles.toggle}
+        onClick={() => hasTxs() && setOpen((o) => !o)}
+        classList={{ [styles.toggleDisabled]: !hasTxs() }}
+      >
         <span>transactions ({txs().length})</span>
-        <span class={styles.chevron}>{open() ? "▲" : "▼"}</span>
+        <Show when={hasTxs()}>
+          <span class={styles.chevron}>{open() ? "▲" : "▼"}</span>
+        </Show>
       </button>
       <Show when={open()}>
         <div class={styles.body}>
