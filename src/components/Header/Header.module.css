@@ -1,0 +1,121 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 11px;
+  height: 48px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 11px;
+  font-size: var(--font-lg);
+  color: var(--text);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  border-color: var(--border-focus);
+  color: var(--accent);
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  padding-top: 19px;
+  z-index: 10;
+}
+
+.wrapper:hover .dropdown {
+  display: block;
+}
+
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  width: 340px;
+}
+
+.fallback {
+  font-size: var(--font-sm);
+  color: var(--text-dim);
+  padding: 15px 19px;
+}
+
+.item {
+  display: flex;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--bg-raised);
+}
+
+.indicator {
+  width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.item.active .indicator {
+  background: var(--accent);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+}
+
+.addressRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.address {
+  font-size: var(--font-md);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.copy {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  color: var(--text-dim);
+  cursor: pointer;
+}
+
+.item:hover .copy {
+  visibility: visible;
+}
+
+.copy:hover {
+  color: var(--text);
+}
+
+.balance {
+  margin-top: 4px;
+  font-size: var(--font-sm);
+  color: var(--text-dim);
+}

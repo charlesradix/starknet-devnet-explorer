@@ -1,0 +1,51 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 11px;
+  height: 25px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+}
+
+.connection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta {
+  font-size: var(--font-sm);
+  color: var(--text-dim);
+}
+
+.sep {
+  font-size: var(--font-sm);
+  color: var(--border);
+}
+
+.network {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.label {
+  font-size: var(--font-sm);
+  color: var(--text-dim);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot.online {
+  background: #3fb950;
+}
+
+.dot.offline {
+  background: #f85149;
+}

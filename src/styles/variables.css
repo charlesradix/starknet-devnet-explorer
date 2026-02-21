@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "ProtoMono";
+  src: url("/fonts/1ea3dae163cab3a0-s.p.otf") format("opentype");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --bg: #14161a;
+  --bg-surface: #181b20;
+  --bg-raised: #23272eee;
+  --border: #282c34;
+  --border-focus: #264368;
+  --text: #cbcdd4;
+  --text-dim: #656b77;
+  --accent: #2f8af9;
+  --font-sm: 12px;
+  --font-md: 13px;
+  --font-lg: 14px;
+  --font-sans: monospace;
+}
