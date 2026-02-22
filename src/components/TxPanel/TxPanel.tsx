@@ -1,5 +1,6 @@
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, onCleanup, For, Show } from "solid-js";
 import { useApp } from "../../context/app.tsx";
+import { getFunctionBySelector } from "../../lib/abi.ts";
 import { shortAddress, relativeTime } from "../../lib/format.ts";
 import styles from "./TxPanel.module.css";
 
@@ -23,8 +24,11 @@ function CopyIcon() {
 }
 
 export function TxPanel() {
-  const { txs } = useApp();
+  const { txs, contracts } = useApp();
   const [open, setOpen] = createSignal(false);
+  const [now, setNow] = createSignal(Date.now());
+  const tick = setInterval(() => setNow(Date.now()), 5000);
+  onCleanup(() => clearInterval(tick));
   const hasTxs = () => txs().length > 0;
 
   return (
@@ -47,39 +51,62 @@ export function TxPanel() {
           >
             <table class={styles.table}>
               <thead>
-                <tr>
+                <tr class={styles.tableHeader}>
                   <th>HASH</th>
                   <th>TYPE</th>
-                  <th>OPERATIONS</th>
+                  <th>CONTRACT</th>
+                  <th>FUNCTION</th>
                   <th>BLOCK</th>
                   <th>AGE</th>
                 </tr>
               </thead>
               <tbody>
                 <For each={txs()}>
-                  {(tx) => (
-                    <tr>
-                      <td>
-                        {shortAddress(tx.hash)}
-                        <button
-                          type="button"
-                          class={styles.copyBtn}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigator.clipboard.writeText(tx.hash);
-                          }}
-                        >
-                          <CopyIcon />
-                        </button>
-                      </td>
-                      <td>
-                        <span class={styles.badge}>{tx.type}</span>
-                      </td>
-                      <td class={styles.dim}>—</td>
-                      <td>{tx.blockNumber}</td>
-                      <td class={styles.dim}>{relativeTime(tx.timestamp)}</td>
-                    </tr>
-                  )}
+                  {(tx) => {
+                    const contract = () =>
+                      tx.callTarget
+                        ? contracts().find(
+                            (c) => BigInt(c.address) === BigInt(tx.callTarget!),
+                          )
+                        : undefined;
+                    const fnName = () =>
+                      contract() && tx.functionSelector
+                        ? getFunctionBySelector(
+                            contract()!.abi,
+                            tx.functionSelector,
+                          )
+                        : undefined;
+
+                    return (
+                      <tr>
+                        <td>
+                          {shortAddress(tx.hash)}
+                          <button
+                            type="button"
+                            class={styles.copyBtn}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigator.clipboard.writeText(tx.hash);
+                            }}
+                          >
+                            <CopyIcon />
+                          </button>
+                        </td>
+                        <td>
+                          <span class={styles.badge}>{tx.type}</span>
+                        </td>
+                        <td class={styles.dim}>
+                          {contract()?.name ??
+                            (tx.callTarget ? shortAddress(tx.callTarget) : "—")}
+                        </td>
+                        <td class={styles.dim}>{fnName() ?? "—"}</td>
+                        <td>{tx.blockNumber}</td>
+                        <td class={styles.dim}>
+                          {relativeTime(tx.timestamp, now())}
+                        </td>
+                      </tr>
+                    );
+                  }}
                 </For>
               </tbody>
             </table>

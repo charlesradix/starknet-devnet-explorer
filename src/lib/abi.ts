@@ -1,3 +1,4 @@
+import { hash } from "starknet";
 import type { AbiEntry, AbiFunction } from "../types.ts";
 
 export function extractContractName(abi: AbiEntry[]): string {
@@ -8,6 +9,20 @@ export function extractContractName(abi: AbiEntry[]): string {
     }
   }
   return "Unknown";
+}
+
+export function getFunctionBySelector(
+  abi: AbiEntry[],
+  selector: string,
+): string | undefined {
+  try {
+    const target = BigInt(selector);
+    return getFunctions(abi).find(
+      (f) => BigInt(hash.getSelectorFromName(f.name)) === target,
+    )?.name;
+  } catch {
+    return undefined;
+  }
 }
 
 export function getFunctions(abi: AbiEntry[]): AbiFunction[] {

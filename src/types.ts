@@ -33,4 +33,6 @@ export type TxRecord = {
   timestamp: number;
   senderAddress?: string;
   status: string;
+  callTarget?: string;
+  functionSelector?: string;
 };

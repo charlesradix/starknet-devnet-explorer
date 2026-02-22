@@ -33,6 +33,13 @@ export function useTxs(url: Accessor<string>, connected: Accessor<boolean>) {
           for (const entry of block.transactions ?? []) {
             const tx = entry.transaction ?? entry;
             const receipt = entry.receipt ?? {};
+            const isInvoke = (tx.type ?? receipt.type) === "INVOKE";
+            const calldata: string[] = tx.calldata ?? [];
+            const callTarget =
+              isInvoke && calldata.length >= 3 ? calldata[1] : undefined;
+            const functionSelector =
+              isInvoke && calldata.length >= 3 ? calldata[2] : undefined;
+
             newTxs.push({
               hash: receipt.transaction_hash ?? "",
               type: tx.type ?? receipt.type ?? "UNKNOWN",
@@ -40,6 +47,8 @@ export function useTxs(url: Accessor<string>, connected: Accessor<boolean>) {
               timestamp,
               senderAddress: tx.sender_address,
               status: receipt.execution_status ?? receipt.status ?? "UNKNOWN",
+              callTarget,
+              functionSelector,
             });
           }
 

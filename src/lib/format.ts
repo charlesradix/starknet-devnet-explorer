@@ -13,8 +13,8 @@ export function shortType(type: string): string {
   return parts[parts.length - 1];
 }
 
-export function relativeTime(ts: number): string {
-  const diff = Math.floor((Date.now() - ts * 1000) / 1000);
+export function relativeTime(ts: number, now = Date.now()): string {
+  const diff = Math.floor((now - ts * 1000) / 1000);
   if (diff < 5) return "just now";
   if (diff < 60) return `${diff}s ago`;
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;

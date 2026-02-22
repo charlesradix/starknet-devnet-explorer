@@ -1,7 +1,7 @@
 .panel {
   flex-shrink: 0;
   border-top: 1px solid var(--border);
-  background: var(--bg-surface);
+  background: var(--bg);
 }
 
 .toggle {
@@ -35,8 +35,7 @@
 
 .body {
   border-top: 1px solid var(--border);
-  padding: 8px;
-  max-height: 300px;
+  height: 300px;
   overflow-y: auto;
 }
 
@@ -54,19 +53,30 @@
   font-size: var(--font-sm);
 }
 
+.tableHeader {
+  background: var(--bg-surface);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .table th {
+  width: 100px;
   text-align: left;
   color: var(--text-dim);
   font-weight: normal;
   padding: 4px 8px;
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
+  background: inherit;
 }
 
 .table td {
   padding: 4px 8px;
   color: var(--text);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .table tr:hover td {
@@ -123,6 +133,6 @@
   .panelOpen .body {
     flex: 1;
     overflow-y: auto;
-    max-height: none;
+    height: auto;
   }
 }
